@@ -1,0 +1,10 @@
+^C:\USERS\HARLEY\SMART-HOME-SYSTEM\SMART-HOME-SYSTEM\BUILD\CMAKEFILES\3C0ACB90B23612FA67095F8291186C61\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Harley/smart-home-system/smart-home-system -BC:/Users/Harley/smart-home-system/smart-home-system/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/Harley/smart-home-system/smart-home-system/build/smart-home-system.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

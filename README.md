@@ -1,7 +1,7 @@
 # Smart Home Automation System
 
 ## Project Overview
-A comprehensive C++ application that simulates a Smart Home Automation and Energy Management System. This object-oriented system allows users to monitor and control various smart devices throughout a virtual home environment, while tracking energy usage and managing user access.
+A C++ application that simulates a Smart Home Automation and Energy Management System. This object-oriented system allows users to monitor and control various smart devices throughout a virtual home environment, while tracking energy usage and managing user access.
 
 ## Core Features
 - **Device Management**: Control various smart devices (lights, thermostats, security cameras)
@@ -11,7 +11,7 @@ A comprehensive C++ application that simulates a Smart Home Automation and Energ
 - **Automated Scheduling**: Set up device routines and schedules
 
 ## Technical Implementation
-- Written in C++17
+- Written in C++
 - Demonstrates OOP principles:
   - Inheritance (Device hierarchies)
   - Polymorphism (Device behavior)

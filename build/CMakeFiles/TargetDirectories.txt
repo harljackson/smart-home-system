@@ -1,0 +1,4 @@
+C:/Users/Harley/smart-home-system/smart-home-system/build/CMakeFiles/device_lib.dir
+C:/Users/Harley/smart-home-system/smart-home-system/build/CMakeFiles/test_devices.dir
+C:/Users/Harley/smart-home-system/smart-home-system/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Harley/smart-home-system/smart-home-system/build/CMakeFiles/ZERO_CHECK.dir
