@@ -18,7 +18,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -36,7 +37,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -45,7 +47,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-Debug-91d89c8406b53d090143.json",
+					"jsonFile" : "target-ALL_BUILD-Debug-0c65f63681c43d154cc4.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
@@ -59,14 +61,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "device_lib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-device_lib-Debug-63636f4c6b1af85f6e6d.json",
+					"jsonFile" : "target-device_lib-Debug-a9ba41d4f44e64d44e8e.json",
 					"name" : "device_lib",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "smart_home_system::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-smart_home_system-Debug-515daaf28e9eceda70fc.json",
+					"name" : "smart_home_system",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "test_devices::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-test_devices-Debug-512445bba1167ed81061.json",
+					"jsonFile" : "target-test_devices-Debug-87bb56e22bcdf814cff3.json",
 					"name" : "test_devices",
 					"projectIndex" : 0
 				}
@@ -89,7 +98,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -107,7 +117,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -116,7 +127,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-Release-91d89c8406b53d090143.json",
+					"jsonFile" : "target-ALL_BUILD-Release-0c65f63681c43d154cc4.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
@@ -130,14 +141,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "device_lib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-device_lib-Release-4439b0954322d37dc662.json",
+					"jsonFile" : "target-device_lib-Release-98108f1e054559965e46.json",
 					"name" : "device_lib",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "smart_home_system::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-smart_home_system-Release-3539a138a0422ccb39ef.json",
+					"name" : "smart_home_system",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "test_devices::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-test_devices-Release-fb212370aebcbb787d23.json",
+					"jsonFile" : "target-test_devices-Release-6c44a9f1bcbc03687b7b.json",
 					"name" : "test_devices",
 					"projectIndex" : 0
 				}
@@ -160,7 +178,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -178,7 +197,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -187,7 +207,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-MinSizeRel-91d89c8406b53d090143.json",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-0c65f63681c43d154cc4.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
@@ -201,14 +221,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "device_lib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-device_lib-MinSizeRel-fce7bc01107240b1dbf4.json",
+					"jsonFile" : "target-device_lib-MinSizeRel-42d9483acf625c6cb67c.json",
 					"name" : "device_lib",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "smart_home_system::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-smart_home_system-MinSizeRel-fbac99161ad03515ca12.json",
+					"name" : "smart_home_system",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "test_devices::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-test_devices-MinSizeRel-fbab7deb39b5ab38af88.json",
+					"jsonFile" : "target-test_devices-MinSizeRel-0d90ac5cc455db2ef6f1.json",
 					"name" : "test_devices",
 					"projectIndex" : 0
 				}
@@ -231,7 +258,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -249,7 +277,8 @@
 						0,
 						1,
 						2,
-						3
+						3,
+						4
 					]
 				}
 			],
@@ -258,7 +287,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-91d89c8406b53d090143.json",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-0c65f63681c43d154cc4.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
@@ -272,14 +301,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "device_lib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-device_lib-RelWithDebInfo-3080709f167e2d05171f.json",
+					"jsonFile" : "target-device_lib-RelWithDebInfo-c007ea435fdf2b47ae31.json",
 					"name" : "device_lib",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
+					"id" : "smart_home_system::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-smart_home_system-RelWithDebInfo-f76b6268dd3e8f4a36dc.json",
+					"name" : "smart_home_system",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
 					"id" : "test_devices::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-test_devices-RelWithDebInfo-516fc5e63570e7d50e17.json",
+					"jsonFile" : "target-test_devices-RelWithDebInfo-0e4c66bab775786991c8.json",
 					"name" : "test_devices",
 					"projectIndex" : 0
 				}

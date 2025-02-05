@@ -6,29 +6,35 @@
 
 // SmartLight class
 class SmartLight : public Device {
+    // private members
     private:
-        int brightness;
-        string color;
+        int brightness; // 0-100
+        string color; // white, red, green, blue
 
-    public:
-        SmartLight(
-            const string& id,
-            const string& name,
-            const string& location
+    // public methods
+    public: 
+        SmartLight( // constructor
+            const string& id, // unique identifier
+            const string& name, // name of the device
+            const string& location // location of the device
         );
 
         // pure virtual functions
-        void turnOn() override;
-        void turnOff() override;
-        double getPowerUsage() const override;
-        string getDeviceStatus() const override;
+        void turnOn() override; // turn on the light device
+        void turnOff() override; // turn off the light device
+        double getPowerUsage() const override; // get the power usage
+        string getDeviceStatus() const override; // get the device status
 
         // additional functions
-        void setBrightness(int brightness);
-        void setColor(const string& color);
-        int getBrightness() const;
-        string getColor() const;
+        void setBrightness(int brightness); // set the brightness
+        void setColor(const string& color); // set the color
+        int getBrightness() const; // get the brightness
+        string getColor() const; // get the color
 
-        #endif // smart_light_hpp
 };
+
+#endif // smart_light_hpp
+
+
+
 

@@ -13,7 +13,15 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_library(device_lib
     "src/devices/device.cpp"
     "src/devices/smart_light.cpp"
+    "src/devices/thermostat.cpp"
+    "src/controllers/home_controller.cpp"
 )
+
+# add main executable
+add_executable(smart_home_system
+    "main.cpp"
+)
+target_link_libraries(smart_home_system device_lib)
 
 # Add test executable
 add_executable(test_devices

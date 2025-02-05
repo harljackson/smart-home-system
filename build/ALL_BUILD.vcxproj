@@ -178,6 +178,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{C7EF7809-C5B3-3A2A-9317-7F317075F93A}</Project>
       <Name>device_lib</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\Harley\smart-home-system\smart-home-system\build\smart_home_system.vcxproj">
+      <Project>{42FA63AD-9A1D-3E19-8220-BF5E42D965CE}</Project>
+      <Name>smart_home_system</Name>
+    </ProjectReference>
     <ProjectReference Include="C:\Users\Harley\smart-home-system\smart-home-system\build\test_devices.vcxproj">
       <Project>{BDCDDCF0-3077-3FDD-813A-CA8C0905E17E}</Project>
       <Name>test_devices</Name>

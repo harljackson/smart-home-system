@@ -1,2 +1,4 @@
 C:\Users\Harley\smart-home-system\smart-home-system\src\devices\device.cpp;C:\Users\Harley\smart-home-system\smart-home-system\build\device_lib.dir\Debug\device.obj
 C:\Users\Harley\smart-home-system\smart-home-system\src\devices\smart_light.cpp;C:\Users\Harley\smart-home-system\smart-home-system\build\device_lib.dir\Debug\smart_light.obj
+C:\Users\Harley\smart-home-system\smart-home-system\src\devices\thermostat.cpp;C:\Users\Harley\smart-home-system\smart-home-system\build\device_lib.dir\Debug\thermostat.obj
+C:\Users\Harley\smart-home-system\smart-home-system\src\controllers\home_controller.cpp;C:\Users\Harley\smart-home-system\smart-home-system\build\device_lib.dir\Debug\home_controller.obj

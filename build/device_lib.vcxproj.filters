@@ -7,6 +7,12 @@
     <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\smart_light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\thermostat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\controllers\home_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Harley\smart-home-system\smart-home-system\CMakeLists.txt" />
