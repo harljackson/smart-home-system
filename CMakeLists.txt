@@ -14,7 +14,9 @@ add_library(device_lib
     "src/devices/device.cpp"
     "src/devices/smart_light.cpp"
     "src/devices/thermostat.cpp"
+    "src/devices/security_camera.cpp"
     "src/controllers/home_controller.cpp"
+    
 )
 
 # add main executable

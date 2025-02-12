@@ -288,6 +288,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\smart_light.cpp" />
     <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\thermostat.cpp" />
     <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\controllers\home_controller.cpp" />
+    <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\security_camera.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

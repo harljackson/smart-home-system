@@ -1,52 +1,75 @@
-// includes
 #include "controllers/home_controller.hpp"
+#include "devices/security_camera.hpp"
+#include "devices/smart_light.hpp"
+#include "devices/thermostat.hpp"
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
 #include <memory>
+#include <limits>
+#include <string>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::cerr;
+using std::endl;
+using std::string;
+using std::getline;
+using std::shared_ptr;
+using std::make_shared;
+using std::exception;
+using std::numeric_limits;
 
-// singleton instance
-HomeController* HomeController::instance = nullptr; // nullptr
+// Singleton instance
+HomeController* HomeController::instance = nullptr;
 
-// singleton instance getter method
-HomeController* HomeController::getInstance() { // getInstance
-    if (instance == nullptr) { // if instance is null
-        instance = new HomeController(); // then create a new instance
+// Singleton instance getter method
+HomeController* HomeController::getInstance() {
+    if (instance == nullptr) {
+        instance = new HomeController();
     } 
-    return instance; // return instance
+    return instance;
 }
 
-// function to add a device
-void HomeController::addDevice(shared_ptr<Device> device) { // addDevice
-    devices.push_back(device); // add device to vector
-    cout << "Device added successfully.\n"; // print success message
+// Function to add a device
+void HomeController::addDevice(shared_ptr<Device> device) {
+    devices.push_back(device);
+    cout << "Device added successfully.\n";
 }
 
-// function to remove a device
-void HomeController::removeDevice(const string& deviceID) { // removeDevice
-    devices.erase( // erase device from vector
-        remove_if(devices.begin(), devices.end(), // remove if condition is true
-            [&deviceID](const auto& device) { // lambda function to check device ID
-                return device->getDeviceID() == deviceID; // return true if device ID matches
+// Function to remove a device
+void HomeController::removeDevice(const string& deviceID) {
+    auto initialSize = devices.size();
+    devices.erase(
+        remove_if(devices.begin(), devices.end(),
+            [&deviceID](const auto& device) {
+                return device->getDeviceID() == deviceID;
             }
         ),
-        devices.end() // end iterator
+        devices.end()
     );
-}
-
-// function to show the devices
-void HomeController::showDevices() const { // showDevices
-    cout << "Devices Available:\n"; // print header
-    for (size_t i = 0; i < devices.size(); i++) { // loop through devices
-        cout << i + 1 << ". " << devices[i]->getDeviceStatus() << "\n"; // print device status
+    if (devices.size() < initialSize) {
+        cout << "Device removed successfully.\n";
+    } else {
+        cout << "Device not found.\n";
     }
 }
 
-// function to display the home page
+// Function to show the devices
+void HomeController::showDevices() const {
+    if (devices.empty()) {
+        cout << "No devices available.\n";
+        return;
+    }
+    cout << "\nDevices Available:\n";
+    for (size_t i = 0; i < devices.size(); i++) {
+        cout << i + 1 << ". " << devices[i]->getDeviceStatus() << "\n";
+    }
+}
+
+// Function to display the home page
 void HomeController::showMenu() const {
-    cout << "\n=== Smart Home System ===\n" // print header
+    cout << "\n=== Smart Home System ===\n"
          << "1. List Available Devices\n"
          << "2. Control Device\n"
          << "3. Add Device\n"
@@ -55,157 +78,210 @@ void HomeController::showMenu() const {
          << "Please select an option: ";
 }
 
-// function to run the controller
-void HomeController::run() { 
-    int choice; // user choice variable
-    while (true) { // infinite loop
-        showMenu(); // show menu
-        cin >> choice; // get user choice
-        cin.ignore(); // ignore any extra characters in the input stream
-
-        switch(choice) { // switch statement to handle user choice
-            case 1: // list available devices
-                showDevices(); // show devices
-                break; 
-
-            case 2: // control device switch statement
-                if (devices.empty()) { // if no devices available
-                    cout << "No devices available to control.\n"; // print error message
-                    break;
-                }
-                showDevices(); // show devices
-                cout << "Please select a device to control: "; // prompt user to select device
-                size_t deviceNumber; // device number variable to store user input 
-                cin >> deviceNumber; // get user input and store in deviceNumber
-                if (deviceNumber > 0 && deviceNumber <= devices.size()) { // check if device number is valid 
-                    handleDeviceControl(devices[deviceNumber - 1]); // call function to handle device control 
-                } else { 
-                    cout << "Invalid device number.\n";
-                }
-                break;
-
-            case 3: { // add device switch statement
-                cout << "Device Types:\n"
-                     << "1. Smart Light\n"
-                     << "2. Smart Thermostat\n"
-                     << "Please select a device type: ";
-                
-                int deviceType; // device type variable to store user input
-                cin >> deviceType; // get user input and store in deviceType
-                cin.ignore(); // ignore any extra characters in the input stream
-
-                // prompt user to enter device details
-                string id, name, location; 
-                cout << "Enter device ID: ";
-                getline(cin, id);
-                cout << "Enter device name: ";
-                getline(cin, name);
-                cout << "Enter device location: ";
-                getline(cin, location);
-
-                // if device type is 1 (Smart Light), create a SmartLight object
-                if (deviceType == 1) {
-                    addDevice(make_shared<SmartLight>(id, name, location));
-                // if device type is 2 (Smart Thermostat), create a Thermostat object    
-                } else if (deviceType == 2) {
-                    addDevice(make_shared<Thermostat>(id, name, location));
-                } else {
-                    cout << "Invalid device type.\n";
-                }
-                break;
-            }
-
-            // remove device switch statement
-            case 4:
-                if (devices.empty()) { // if no devices available 
-                    cout << "No devices available to remove.\n";
-                    break;
-                }
-                showDevices(); // show devices
-                cout << "Enter device ID to remove: "; // prompt user to enter device ID to remove
-                {
-                    string id; // device ID variable to store user input
-                    cin >> id; // get user input and store in id
-                    cin.ignore(); // ignore any extra characters in the input stream
-                    removeDevice(id); // call function to remove device from vector 
-                }
-                break;
-
-            // exit switch statement 
-            case 5:
-                cout << "Goodbye!\n";
-                exit(0); // exit program
-                break;
-
-            default:
-                cout << "Invalid choice. Please try again.\n"; // display error message if invalid choice
-                break;
+// Function to run the controller
+void HomeController::run() {
+    cout << "Welcome to Smart Home System!\n";
+    
+    while (true) {
+        showMenu();
+        int choice;
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number.\n";
+            continue;
         }
+        cin.ignore();
+
+        try {
+            switch(choice) {
+                case 1:
+                    showDevices();
+                    break;
+
+                case 2: {
+                    if (devices.empty()) {
+                        cout << "No devices available to control.\n";
+                        break;
+                    }
+                    showDevices();
+                    cout << "Please select a device to control (1-" << devices.size() << "): ";
+                    size_t deviceNumber;
+                    if (cin >> deviceNumber && deviceNumber > 0 && deviceNumber <= devices.size()) {
+                        handleDeviceControl(devices[deviceNumber - 1]);
+                    } else {
+                        cout << "Invalid device number.\n";
+                    }
+                    cin.ignore();
+                    break;
+                }
+
+                case 3: {
+                    cout << "Device Types:\n"
+                         << "1. Smart Light\n"
+                         << "2. Smart Thermostat\n"
+                         << "3. Security Camera\n"
+                         << "Please select a device type: ";
+                    
+                    int deviceType;
+                    if (!(cin >> deviceType)) {
+                        cout << "Invalid input.\n";
+                        cin.clear();
+                        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                        break;
+                    }
+                    cin.ignore();
+
+                    string id, name, location;
+                    cout << "Enter device ID: ";
+                    getline(cin, id);
+                    cout << "Enter device name: ";
+                    getline(cin, name);
+                    cout << "Enter device location: ";
+                    getline(cin, location);
+
+                    try {
+                        switch (deviceType) {
+                            case 1:
+                                addDevice(make_shared<SmartLight>(id, name, location));
+                                break;
+                            case 2:
+                                addDevice(make_shared<Thermostat>(id, name, location));
+                                break;
+                            case 3:
+                                addDevice(make_shared<SecurityCamera>(id, name, location));
+                                break;
+                            default:
+                                cout << "Invalid device type.\n";
+                        }
+                    } catch (const exception& e) {
+                        cerr << "Error creating device: " << e.what() << endl;
+                    }
+                    break;
+                }
+
+                case 4: {
+                    if (devices.empty()) {
+                        cout << "No devices available to remove.\n";
+                        break;
+                    }
+                    showDevices();
+                    cout << "Enter device ID to remove: ";
+                    string id;
+                    getline(cin, id);
+                    removeDevice(id);
+                    break;
+                }
+
+                case 5:
+                    cout << "Thank you for using Smart Home System. Goodbye!\n";
+                    return;
+
+                default:
+                    cout << "Invalid choice. Please enter a number between 1 and 5.\n";
+            }
+        } catch (const exception& e) {
+            cerr << "Error: " << e.what() << endl;
+        }
+
+        cout << "\nPress Enter to continue...";
+        cin.get();
     }
 }
 
-// function to handle device control
-void HomeController::handleDeviceControl(const shared_ptr<Device> device) { 
-    if (auto light = dynamic_pointer_cast<SmartLight>(device)) { // check if device is SmartLight 
-        handleSmartLightControl(light); // call function to handle SmartLight control
-        } else if (auto thermostat = dynamic_pointer_cast<Thermostat>(device)) { // check if device is SmartThermostat
-        handleThermostatControl(thermostat); // call function to handle SmartThermostat control
-
+// Function to handle device control
+void HomeController::handleDeviceControl(const shared_ptr<Device> device) {
+    if (auto light = dynamic_pointer_cast<SmartLight>(device)) {
+        handleSmartLightControl(light);
+    } else if (auto thermostat = dynamic_pointer_cast<Thermostat>(device)) {
+        handleThermostatControl(thermostat);
+    } else if (auto camera = dynamic_pointer_cast<SecurityCamera>(device)) {
+        handleSecurityCameraControl(camera);
     }
 }
 
-// function to handle SmartLight control
-void HomeController::handleSmartLightControl(const shared_ptr<SmartLight> light) { 
-    while (true) { // loop until user chooses to exit
+// Function to handle SmartLight control
+void HomeController::handleSmartLightControl(const shared_ptr<SmartLight> light) {
+    while (true) {
         cout << "\n=== Smart Light Control ===\n"
-             << "1. Turn On\n"
+             << "1. Turn On/Off\n"
              << "2. Set Brightness\n"
              << "3. Set Color\n"
              << "4. Show Device Status\n"
-             << "5. Back\n"
+             << "5. Quick Increase Brightness (+15%)\n"
+             << "6. Back\n"
              << "Please select an option: ";
 
-            
-        int choice; // variable to store user choice
-        cin >> choice; // get user input and store in choice
+        int choice;
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Invalid input.\n";
+            continue;
+        }
+        cin.ignore();
 
-        // switch statement to handle user choice
-        switch (choice) {
-            case 1:
-                if (light->getIsOn()) light->turnOff(); // turn off light if already on
-                else light->turnOn(); // turn on light
-                break; 
+        try {
+            switch (choice) {
+                case 1: {
+                    if (light->getIsOn()) {
+                        light->turnOff();
+                        cout << "Light turned off.\n";
+                    } else {
+                        light->turnOn();
+                        cout << "Light turned on.\n";
+                    }
+                    cout << *light << "\n";
+                    break;
+                }
 
-            // set brightness of light
-            case 2: {
-                cout << "Enter brightness level (0-100): ";
-                int brightness;
-                cin >> brightness;
-                light->setBrightness(brightness); 
-                break;
+                case 2: {
+                    cout << "Enter brightness level (0-100): ";
+                    int brightness;
+                    if (cin >> brightness) {
+                        light->setBrightness(brightness);
+                        cout << *light << "\n";
+                    } else {
+                        cout << "Invalid brightness value.\n";
+                        cin.clear();
+                    }
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    break;
+                }
+
+                case 3: {
+                    cout << "Enter color: ";
+                    string color;
+                    getline(cin, color);
+                    light->setColor(color);
+                    cout << *light << "\n";
+                    break;
+                }
+
+                case 4:
+                    cout << *light << "\n";
+                    break;
+
+                case 5: {
+                    *light = *light + 15;
+                    cout << "Increased brightness by 15%\n";
+                    cout << *light << "\n";
+                    break;
+                }
+
+                case 6:
+                    return;
+
+                default:
+                    cout << "Invalid choice. Please try again.\n";
             }
-            // set color of light
-            case 3: {
-                cout << "Enter color :";
-                string color;
-                cin.ignore(); // ignore newline left-over
-                getline(cin, color);
-                light->setColor(color);
-                break;
-            }
-            // show device status
-            case 4:
-                cout << light->getDeviceStatus() << "\n";
-                break;
-
-            // exit
-            case 5:
-                return;
+        } catch (const exception& e) {
+            cerr << "Error: " << e.what() << endl;
         }
     }
 }
 
-// function to handle SmartThermostat control
+// Function to handle Thermostat control
 void HomeController::handleThermostatControl(const shared_ptr<Thermostat> thermostat) {
     while (true) {
         cout << "\n=== Thermostat Control ===\n"
@@ -216,44 +292,165 @@ void HomeController::handleThermostatControl(const shared_ptr<Thermostat> thermo
              << "5. Back\n"
              << "Please select an option: ";
 
-        // get user choice
         int choice;
-        cin >> choice;
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Invalid input.\n";
+            continue;
+        }
+        cin.ignore();
 
-        // switch statement to handle user choice
-        switch (choice) {
-            // turn on/off thermostat
-            case 1:
-                if (thermostat->getIsOn()) thermostat->turnOff(); // turn off thermostat if already on
-                else thermostat->turnOn(); // turn on thermostat if off
-                break;
+        try {
+            switch (choice) {
+                case 1: {
+                    if (thermostat->getIsOn()) {
+                        thermostat->turnOff();
+                        cout << "Thermostat turned off.\n";
+                    } else {
+                        thermostat->turnOn();
+                        cout << "Thermostat turned on.\n";
+                    }
+                    cout << thermostat->getDeviceStatus() << "\n";
+                    break;
+                }
 
-            // set temperature of thermostat
-            case 2: {
-                cout << "Enter temperature: ";
-                float temperature; // declare float variable
-                cin >> temperature;
-                thermostat->setTemperature(temperature);
-                break;
+                case 2: {
+                    cout << "Enter temperature: ";
+                    float temperature;
+                    if (cin >> temperature) {
+                        thermostat->setTemperature(temperature);
+                        cout << thermostat->getDeviceStatus() << "\n";
+                    } else {
+                        cout << "Invalid temperature value.\n";
+                        cin.clear();
+                    }
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    break;
+                }
+
+                case 3: {
+                    cout << "Enter mode (heating/cooling/auto): ";
+                    string mode;
+                    getline(cin, mode);
+                    thermostat->setMode(mode);
+                    cout << thermostat->getDeviceStatus() << "\n";
+                    break;
+                }
+
+                case 4:
+                    cout << thermostat->getDeviceStatus() << "\n";
+                    break;
+
+                case 5:
+                    return;
+
+                default:
+                    cout << "Invalid choice. Please try again.\n";
             }
+        } catch (const exception& e) {
+            cerr << "Error: " << e.what() << endl;
+        }
+    }
+}
 
-            // set mode of thermostat
-            case 3: {
-                cout << "Enter mode (heating, cooling, auto): ";
-                string mode; // declare string variable
-                cin.ignore(); // ignore newline left-over
-                getline(cin, mode); // read line input
-                thermostat->setMode(mode);
-                break;
+// Function to handle SecurityCamera control
+void HomeController::handleSecurityCameraControl(const shared_ptr<SecurityCamera> camera) {
+    while (true) {
+        cout << "\n=== Security Camera Control ===\n"
+             << "1. Turn On/Off\n"
+             << "2. Start/Stop Recording\n"
+             << "3. Set Resolution\n"
+             << "4. Rotate Camera\n"
+             << "5. Toggle Motion Detection\n"
+             << "6. Show Device Status\n"
+             << "7. Back\n"
+             << "Please select an option: ";
+
+        int choice;
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Invalid input.\n";
+            continue;
+        }
+        cin.ignore();
+
+        try {
+            switch (choice) {
+                case 1: {
+                    if (camera->getIsOn()) {
+                        camera->turnOff();
+                        cout << "Camera turned off.\n";
+                    } else {
+                        camera->turnOn();
+                        cout << "Camera turned on.\n";
+                    }
+                    cout << *camera << "\n";
+                    break;
+                }
+
+                case 2: {
+                    if (camera->getIsRecording()) {
+                        camera->stopRecording();
+                        cout << "Recording stopped.\n";
+                    } else {
+                        camera->startRecording();
+                        cout << "Recording started.\n";
+                    }
+                    cout << *camera << "\n";
+                    break;
+                }
+
+                case 3: {
+                    cout << "Enter resolution (720p/1080p/4K): ";
+                    string res;
+                    getline(cin, res);
+                    camera->setResolution(res);
+                    cout << "Resolution set to " << res << "\n";
+                    cout << *camera << "\n";
+                    break;
+                }
+
+                case 4: {
+                    cout << "Enter rotation angle (0-360): ";
+                    int angle;
+                    if (cin >> angle) {
+                        camera->setRotation(angle);
+                        cout << "Camera rotated to " << angle << " degrees\n";
+                    } else {
+                        cout << "Invalid angle value.\n";
+                        cin.clear();
+                    }
+                    cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                    cout << *camera << "\n";
+                    break;
+                }
+
+                case 5: {
+                    if (camera->getMotionDetection()) {
+                        camera->disableMotionDetection();
+                        cout << "Motion detection disabled.\n";
+                    } else {
+                        camera->enableMotionDetection();
+                        cout << "Motion detection enabled.\n";
+                    }
+                    cout << *camera << "\n";
+                    break;
+                }
+
+                case 6:
+                    cout << *camera << "\n";
+                    break;
+
+                case 7:
+                    return;
+
+                default:
+                    cout << "Invalid option.\n";
             }
-
-            // show device status of thermostat
-            case 4:
-                cout << thermostat->getDeviceStatus() << "\n"; // display device status of thermostat
-                break;
-
-            case 5:
-                return;
-            }
+        } catch (const exception& e) {
+            cerr << "Error: " << e.what() << endl;
+        }
     }
 }

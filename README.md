@@ -10,7 +10,7 @@ A C++ application that simulates a Smart Home Automation and Energy Management S
 - **Energy Monitoring**: Track and analyze power consumption
 - **Automated Scheduling**: Set up device routines and schedules
 
-## Technical Implementation
+## Implementation
 - Written in C++
 - Demonstrates OOP principles:
   - Inheritance (Device hierarchies)
