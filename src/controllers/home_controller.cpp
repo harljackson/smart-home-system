@@ -26,10 +26,10 @@ using std::exception;
 using std::numeric_limits;
 using std::vector;
 
-// Singleton instance
+// singleton instance
 HomeController* HomeController::instance = nullptr;
 
-// Singleton instance getter method
+// singleton instance getter method
 HomeController* HomeController::getInstance() {
     if (instance == nullptr) {
         instance = new HomeController();
@@ -37,13 +37,13 @@ HomeController* HomeController::getInstance() {
     return instance;
 }
 
-// Function to add a device
+// function to add a device
 void HomeController::addDevice(shared_ptr<Device> device) {
     devices.push_back(device);
     cout << "Device added successfully.\n";
 }
 
-// Function to remove a device
+// function to remove a device
 void HomeController::removeDevice(const string& deviceID) {
     auto initialSize = devices.size();
     devices.erase(
@@ -61,7 +61,7 @@ void HomeController::removeDevice(const string& deviceID) {
     }
 }
 
-// Function to show the devices
+// function to show the devices
 void HomeController::showDevices() const {
     if (devices.empty()) {
         cout << "No devices available.\n";
@@ -604,10 +604,10 @@ void HomeController::listRooms() const {
         room->listDevices();
     }
 }
-
 // Function to handle Energy Monitoring
 void HomeController::handleEnergyMonitoring() {
     auto monitor = EnergyMonitor::getInstance();
+    int choice; 
 
     // Energy Monitoring Menu
     while (true) {
@@ -618,11 +618,24 @@ void HomeController::handleEnergyMonitoring() {
              << "4. Back\n"
              << "Please select an option: ";
 
-        int choice; // user choice
-        cin >> choice; // cin input
-        cin.ignore(); // ignore input
+        // Read user input and validate it
+        if (!(cin >> choice)) {
+            cin.clear(); // Clear the error flag on cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
 
-        // switch statement to handle user choice
+        // Check if choice is within valid range
+        if (choice < 1 || choice > 4) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear rest of the line
+            cout << "Invalid choice. Please enter a number between 1 and 4.\n";
+            continue;
+        }
+        
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear any remaining input
+
+        // Process the valid selection
         switch (choice) {
             case 1:
                 monitor->displayCurrentUsage();
@@ -635,11 +648,9 @@ void HomeController::handleEnergyMonitoring() {
                 break;
             case 4:
                 return;
-            default:
-                cout << "Invalid choice. Please try again.\n";
         }
 
         cout << "\nPress Enter to continue...";
-        cin.get();
-        }
+        cin.get(); // Wait for the user to press Enter
     }
+}

@@ -40,11 +40,6 @@ string Device::getDeviceLocation() const {
 // getter for isOn status
 bool Device::getIsOn() const {
     return isOn;
-
-    // when device is on record power usage
-    if (isOn) {
-        EnergyMonitor::getInstance()->recordUsage(deviceID, powerConsumption);
-    }
 }
 
 
@@ -69,5 +64,19 @@ void Device::setPowerConsumption(double consumption) {
 
     // record usage in energy monitor
     EnergyMonitor::getInstance()->recordUsage(deviceID, consumption);
+}
+
+// turn on energy monitoring for device
+void Device::turnOn() {
+    setIsOn(true);
+    // when device is on, record power consumption
+    EnergyMonitor::getInstance()->recordUsage(deviceID, powerConsumption);
+}
+
+// turn off energy monitoring for device
+void Device::turnOff() {
+    setIsOn(false);
+    // when device is off, record power consumption as 0
+    EnergyMonitor::getInstance()->recordUsage(deviceID, 0.0);
 }
 

@@ -62,7 +62,7 @@ std::string SecurityCamera::getDeviceStatus() const {
                " [Recording: " + (isRecording ? "Yes" : "No") +
                ", Resolution: " + resolution +
                ", Rotation: " + std::to_string(angleRotation) +
-               "°, Motion Detection: " + (motionDetection ? "On" : "Off") + "]";
+               " degrees, Motion Detection: " + (motionDetection ? "On" : "Off") + "]";
     } catch (const std::exception& e) {
         std::cerr << "Error getting device status: " << e.what() << std::endl;
         throw std::runtime_error("Failed to get device status");

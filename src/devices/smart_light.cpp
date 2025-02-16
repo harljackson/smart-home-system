@@ -73,7 +73,10 @@ void SmartLight::setBrightness(int level) {
             throw invalid_argument("Brightness must be between 0 and 100");
         }
         brightness = level; // set the brightness to the given level
-        setPowerConsumption(level * 0.001); // calculate power consumption
+        
+        // power consumption increases with brightness
+        double power = level * 0.001; 
+        setPowerConsumption(power);
     } catch (const invalid_argument& e) {
         cerr << "Invalid brightness value: " << e.what() << endl;
         throw;
