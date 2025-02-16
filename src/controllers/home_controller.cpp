@@ -2,12 +2,15 @@
 #include "devices/security_camera.hpp"
 #include "devices/smart_light.hpp"
 #include "devices/thermostat.hpp"
+#include "controllers/room_controller.hpp"
+#include "controllers/energy_monitor.hpp"
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
 #include <memory>
 #include <limits>
 #include <string>
+#include <vector>
 
 using std::cout;
 using std::cin;
@@ -17,8 +20,11 @@ using std::string;
 using std::getline;
 using std::shared_ptr;
 using std::make_shared;
+using std::make_unique;
+using std::unique_ptr;
 using std::exception;
 using std::numeric_limits;
+using std::vector;
 
 // Singleton instance
 HomeController* HomeController::instance = nullptr;
@@ -27,7 +33,7 @@ HomeController* HomeController::instance = nullptr;
 HomeController* HomeController::getInstance() {
     if (instance == nullptr) {
         instance = new HomeController();
-    } 
+    }
     return instance;
 }
 
@@ -74,14 +80,16 @@ void HomeController::showMenu() const {
          << "2. Control Device\n"
          << "3. Add Device\n"
          << "4. Remove Device\n"
-         << "5. Exit\n"
+         << "5. Room Management\n"
+         << "6. Energy Monitoring\n"
+         << "7. Exit\n"
          << "Please select an option: ";
 }
 
 // Function to run the controller
 void HomeController::run() {
     cout << "Welcome to Smart Home System!\n";
-    
+
     while (true) {
         showMenu();
         int choice;
@@ -94,7 +102,7 @@ void HomeController::run() {
         cin.ignore();
 
         try {
-            switch(choice) {
+            switch (choice) {
                 case 1:
                     showDevices();
                     break;
@@ -122,7 +130,7 @@ void HomeController::run() {
                          << "2. Smart Thermostat\n"
                          << "3. Security Camera\n"
                          << "Please select a device type: ";
-                    
+
                     int deviceType;
                     if (!(cin >> deviceType)) {
                         cout << "Invalid input.\n";
@@ -173,7 +181,66 @@ void HomeController::run() {
                     break;
                 }
 
-                case 5:
+                case 5: { // Room Management
+                    cout << "Room Management:\n"
+                         << "1. Add Room\n"
+                         << "2. Remove Room\n"
+                         << "3. List Rooms\n"
+                         << "4. Assign Device to Room\n"
+                         << "5. Back\n"
+                         << "Please select an option: ";
+
+                    int roomOption;
+                    if (!(cin >> roomOption)) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                        cout << "Invalid input. Please enter a number.\n";
+                        break;
+                    }
+                    cin.ignore();
+
+                    switch (roomOption) {
+                        case 1: {
+                            cout << "Enter room name: ";
+                            string roomName;
+                            getline(cin, roomName);
+                            addRoom(roomName);
+                            break;
+                        }
+                        case 2: {
+                            cout << "Enter room name to remove: ";
+                            string roomName;
+                            getline(cin, roomName);
+                            removeRoom(roomName);
+                            break;
+                        }
+                        case 3: {
+                            listRooms();
+                            break;
+                        }
+                        case 4: {
+                            cout << "Enter device ID: ";
+                            string deviceId;
+                            getline(cin, deviceId);
+                            cout << "Enter room name: ";
+                            string roomName;
+                            getline(cin, roomName);
+                            assignDeviceToRoom(deviceId, roomName);
+                            break;
+                        }
+                        case 5:
+                            break;
+                        default:
+                            cout << "Invalid choice. Please enter a number between 1 and 5.\n";
+                    }
+                    break;
+                }
+
+                case 6:
+                    handleEnergyMonitoring();
+                    break;
+
+                case 7:
                     cout << "Thank you for using Smart Home System. Goodbye!\n";
                     return;
 
@@ -454,3 +521,125 @@ void HomeController::handleSecurityCameraControl(const shared_ptr<SecurityCamera
         }
     }
 }
+
+// Function to assign device to room
+void HomeController::assignDeviceToRoom(const string& deviceId, const string& roomName) {
+    // Find the device with the given ID
+    auto deviceIt = find_if(devices.begin(), devices.end(),
+        [&deviceId](const auto& device) {
+            return device->getDeviceID() == deviceId;
+        }
+    );
+
+    if (deviceIt == devices.end()) {
+        cout << "Device not found.\n";
+        return;
+    }
+
+    // Find the room with the given name
+    auto roomIt = find_if(rooms.begin(), rooms.end(),
+        [&roomName](const auto& room) {
+            return room->getRoomName() == roomName;
+        }
+    );
+
+    if (roomIt == rooms.end()) {
+        cout << "Room not found.\n";
+        return;
+    }
+
+    // Add the device to the room
+    (*roomIt)->addDevice(*deviceIt);
+    cout << "Device " << deviceId << " assigned to room " << roomName << "\n";
+}
+
+// Function to add a room
+void HomeController::addRoom(const string& roomName) {
+    // Check if room already exists
+    auto it = find_if(rooms.begin(), rooms.end(),
+        [&roomName](const auto& room) {
+            return room->getRoomName() == roomName;
+        }
+    );
+
+    if (it != rooms.end()) {
+        cout << "Room already exists.\n";
+        return;
+    }
+
+    // Create a new room and add it to the list
+    rooms.push_back(make_unique<RoomController>(roomName));
+    cout << "Room " << roomName << " added successfully.\n";
+}
+
+// Function to remove a room
+void HomeController::removeRoom(const string& roomName) {
+    auto initialSize = rooms.size();
+    rooms.erase(
+        std::remove_if(rooms.begin(), rooms.end(),
+            [&roomName](const auto& room) {
+                return room->getRoomName() == roomName;
+            }
+        ),
+        rooms.end()
+    );
+
+    if (rooms.size() < initialSize) {
+        cout << "Room " << roomName << " removed successfully.\n";
+    } else {
+        cout << "Room not found.\n";
+    }
+}
+
+// Function to list all rooms
+void HomeController::listRooms() const {
+    if (rooms.empty()) {
+        cout << "No rooms available.\n";
+        return;
+    }
+
+    cout << "\nAvailable Rooms:\n";
+    for (const auto& room : rooms) {
+        cout << "- " << room->getRoomName() << ":\n";
+        room->listDevices();
+    }
+}
+
+// Function to handle Energy Monitoring
+void HomeController::handleEnergyMonitoring() {
+    auto monitor = EnergyMonitor::getInstance();
+
+    // Energy Monitoring Menu
+    while (true) {
+        cout << "\n=== Energy Monitoring ===\n"
+             << "1. View Current Usage\n"
+             << "2. View Total Consumption\n"
+             << "3. Generate Energy Report\n"
+             << "4. Back\n"
+             << "Please select an option: ";
+
+        int choice; // user choice
+        cin >> choice; // cin input
+        cin.ignore(); // ignore input
+
+        // switch statement to handle user choice
+        switch (choice) {
+            case 1:
+                monitor->displayCurrentUsage();
+                break;
+            case 2:
+                monitor->displayTotalUsage();
+                break;
+            case 3:
+                monitor->generateReport();
+                break;
+            case 4:
+                return;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+
+        cout << "\nPress Enter to continue...";
+        cin.get();
+        }
+    }

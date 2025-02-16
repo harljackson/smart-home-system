@@ -7,6 +7,7 @@
 #include "devices/smart_light.hpp"
 #include "devices/thermostat.hpp"
 #include "devices/security_camera.hpp"
+#include "controllers/room_controller.hpp"
 
 class HomeController {
 private:
@@ -19,6 +20,9 @@ private:
     void handleThermostatControl(const std::shared_ptr<Thermostat> thermostat);
     void handleSecurityCameraControl(const std::shared_ptr<SecurityCamera> camera);
 
+    // Room control handlers
+    std::vector<std::unique_ptr<RoomController>> rooms;
+
 public:
     static HomeController* getInstance();
     void addDevice(std::shared_ptr<Device> device);
@@ -26,6 +30,17 @@ public:
     void showDevices() const;
     void showMenu() const;
     void handleDeviceControl(const std::shared_ptr<Device> device);
+
+    // Room control methods
+    void addRoom(const std::string& roomName);
+    void removeRoom(const std::string& roomName);
+    void listRooms() const;
+    void assignDeviceToRoom(const std::string& deviceId, const std::string& roomName);
+    void handleRoomControl();
+
+    // Energy monitoring methods
+    void showEnergyMenu() const;
+    void handleEnergyMonitoring();
     void run();
 };
 

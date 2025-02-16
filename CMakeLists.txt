@@ -16,6 +16,8 @@ add_library(device_lib
     "src/devices/thermostat.cpp"
     "src/devices/security_camera.cpp"
     "src/controllers/home_controller.cpp"
+    "src/controllers/room_controller.cpp"
+    "src/controllers/energy_monitor.cpp"
     
 )
 

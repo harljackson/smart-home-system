@@ -1,4 +1,5 @@
 #include "devices/device.hpp"
+#include "controllers/energy_monitor.hpp"
 
 // default constructor
 Device::Device() 
@@ -39,6 +40,11 @@ string Device::getDeviceLocation() const {
 // getter for isOn status
 bool Device::getIsOn() const {
     return isOn;
+
+    // when device is on record power usage
+    if (isOn) {
+        EnergyMonitor::getInstance()->recordUsage(deviceID, powerConsumption);
+    }
 }
 
 
@@ -60,5 +66,8 @@ void Device::setIsOn(bool status) {
 // setter for power consumption
 void Device::setPowerConsumption(double consumption) {
     powerConsumption = consumption;
+
+    // record usage in energy monitor
+    EnergyMonitor::getInstance()->recordUsage(deviceID, consumption);
 }
 
