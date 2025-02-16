@@ -12,7 +12,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Debug/device_lib.lib"
+			"path" : "Release/device_lib.lib"
 		}
 	],
 	"backtrace" : 1,
@@ -52,7 +52,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17"
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG -std:c++17"
 				}
 			],
 			"includes" : 
@@ -132,13 +132,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/controllers/home_controller.cpp",
+			"path" : "src/devices/security_camera.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/devices/security_camera.cpp",
+			"path" : "src/controllers/home_controller.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

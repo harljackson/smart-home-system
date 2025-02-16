@@ -10,10 +10,10 @@
     <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\thermostat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\controllers\home_controller.cpp">
+    <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\security_camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\devices\security_camera.cpp">
+    <ClCompile Include="C:\Users\Harley\smart-home-system\smart-home-system\src\controllers\home_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
