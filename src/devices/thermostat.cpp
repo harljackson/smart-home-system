@@ -1,5 +1,6 @@
 //includes
 #include "devices/thermostat.hpp"
+#include "controllers/energy_monitor.hpp"
 #include <cmath>
 
 // constructor for thermostat class
@@ -7,12 +8,16 @@ Thermostat::Thermostat(const string& id, const string& name, const string& locat
 : Device(id, name, location)
 , temperature(20.0) // default temperature is 20.0 degrees celsius
 , mode("auto") // default mode is auto
-, desiredTemperature(20.0) // default desired temperature is 20.0 degrees celsius
-{}
+, desiredTemperature(20.0){
+    setIsOn(false); // default is off
+}
 
 // turn on the thermostat
 void Thermostat::turnOn() {
     setIsOn(true);
+
+    // when device is on, record power consumption
+    EnergyMonitor::getInstance()->recordUsage(deviceID, getPowerUsage());
 }
 
 // turn off the thermostat
@@ -23,10 +28,14 @@ void Thermostat::turnOff() {
 // set the temperature of the thermostat
 double Thermostat::getPowerUsage() const {
     if (!getIsOn()) return 0.0;
-
-    // calculate the power usage based on the temperature
-    return fabs(desiredTemperature - temperature) * 0.1;
+    
+    // Base power consumption when on + additional usage based on temperature difference
+    double basePower = 1.0; // Base power consumption when running
+    double tempDiffPower = fabs(desiredTemperature - temperature) * 10.0;
+    
+    return basePower + tempDiffPower;
 }
+
 
 // get the status of the thermostat
 string Thermostat::getDeviceStatus() const {
