@@ -1,22 +1,94 @@
-# Smart Home Automation System
+# 🏠 Smart Home Automation System
 
-## Project Overview
-A C++ application that simulates a Smart Home Automation and Energy Management System. This object-oriented system allows users to monitor and control various smart devices throughout a virtual home environment, while tracking energy usage effortlessly. 
+## 📌 Project Overview
+The **Smart Home Automation System** is a **C++ application** that simulates a smart home environment with integrated **device control** and **energy management** functionality.  
+Built using **object-oriented programming (OOP)** principles, the system enables users to monitor and control multiple smart devices across a virtual home while tracking overall energy usage.
 
-## Core Features
-- **Device Management**: Control various smart devices (lights, thermostats, security cameras)
-- **Room Control**: Organize and manage devices by room location
-- **Energy Monitoring**: Track and analyze power consumption
+---
 
-## Implementation
-- Written in C++
-- Demonstrates OOP principles:
-  - Inheritance (Device hierarchies)
-  - Polymorphism (Device behavior)
-  - Encapsulation (Data protection)
-  - Operator Overloading
-  - Dynamic Memory Management
-- Terminal-based user interface
+## ⚙️ Core Features
 
-## Development Status
-🚧 Currently under development as part of university coursework in Object-Oriented Programming.
+- 💡 **Device Management**  
+  Control and manage smart devices including:
+  - Lights  
+  - Thermostats  
+  - Security cameras  
+
+- 🏠 **Room-Based Organisation**  
+  Devices are grouped by room to reflect a realistic home layout.
+
+- 📊 **Energy Monitoring**  
+  Tracks and calculates energy consumption across connected devices.
+
+- 🖥️ **Terminal-Based User Interface**  
+  Interactive command-line interface for user input and system control.
+
+---
+
+## 🧠 Technical Implementation
+
+- **Language:** C++
+- **Programming Paradigm:** Object-Oriented Programming (OOP)
+
+### Demonstrated Concepts
+- 🧬 **Inheritance** – Structured device class hierarchies  
+- 🔁 **Polymorphism** – Dynamic device behaviour through base-class interfaces  
+- 🔒 **Encapsulation** – Controlled access to internal data  
+- ➕ **Operator Overloading** – Custom object operations  
+- 🧠 **Dynamic Memory Management** – Efficient handling of resources  
+
+---
+
+## 🗂️ Project Structure
+
+smart-home-system/
+│
+├── include/ # Header files
+├── src/ # Source files
+├── test/ # Unit tests
+├── build/ # Build output
+│
+├── main.cpp # Application entry point
+├── CMakeLists.txt # Build configuration
+└── README.md # Documentation
+
+
+---
+
+## 🛠️ Build & Run Instructions
+
+### Clone the Repository
+```bash
+git clone https://github.com/harljackson/smart-home-system.git
+cd smart-home-system
+Build the Project
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+Run the Application
+./smart-home-system
+On Windows, run the generated .exe file from the build directory.
+
+🧪 Testing
+Unit tests are included in the test/ directory
+
+Tests validate core system functionality and logic
+
+📚 Learning Outcomes
+This project demonstrates:
+
+Strong application of C++ OOP principles
+
+Modular and maintainable system design
+
+Energy-aware simulation logic
+
+Use of CMake for cross-platform builds
+
+Real-world inspired software architecture
+
+👤 Author
+Harley Jackson
+📫 GitHub: https://github.com/harljackson
